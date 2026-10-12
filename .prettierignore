@@ -1,0 +1,11 @@
+.next
+node_modules
+pnpm-lock.yaml
+app/generated
+.agents
+agent
+pnpm-workspace.yaml
+
+.next-*
+backend/.venv
+package-lock.transfer-backup.json

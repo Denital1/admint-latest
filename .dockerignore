@@ -1,0 +1,14 @@
+node_modules
+.next*
+.git
+**/.venv
+**/__pycache__
+**/*.log
+**/.env*
+**/db.sqlite3*
+**/*.sqlite3*
+qa
+**/*.stdout.log
+**/*.stderr.log
+package-lock.transfer-backup.json
+anchor/target

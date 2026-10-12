@@ -1,0 +1,7 @@
+"use client";
+import {useEffect,useState} from "react";
+import Link from "next/link";
+import {request,MarketHeader} from "../lib/marketplace";
+import {useAuth} from "../lib/auth";
+type Item={id:number;title:string;role:string;status:string;price:string};
+export default function Orders(){const {user,loading}=useAuth();const [items,setItems]=useState<Item[]|null>(null);const [error,setError]=useState("");useEffect(()=>{if(!user)return;let active=true;request<{results:Item[]}>("orders/").then(d=>{if(active)setItems(d.results);}).catch(e=>{if(active)setError(e.message);});return()=>{active=false;};},[user]);return <main className="commerce-page"><MarketHeader/><div className="commerce-title"><span className="listing-eyebrow">YOUR ACTIVITY</span><h1>Orders & <em>conversations.</em></h1><p>From the first brief to the final placement.</p></div>{error&&<p role="alert">{error}</p>}{loading?<p>Loading…</p>:!user?<Link href="/login">Log in to see your orders</Link>:!items?<p>Loading orders…</p>:items.length===0?<div className="collection-empty"><h2>No orders yet</h2><p>After a confirmed purchase, your order and private conversation appear here.</p><Link href="/">Explore surfaces ↗︎</Link></div>:<div className="order-grid">{items.map(i=><Link className="commerce-panel order-card" key={i.id} href={`/orders/${i.id}`}><span className="listing-eyebrow">{i.role==="buyer"?"PURCHASE":"SALE"} · #{i.id}</span><h2>{i.title}</h2><footer><span>{i.status.replaceAll("_"," ")}</span><b>{i.price} SOL ↗︎</b></footer></Link>)}</div>}</main>;}
